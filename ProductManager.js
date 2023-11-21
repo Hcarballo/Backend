@@ -6,7 +6,6 @@ class ProductManager {
 
     constructor() {
         this.products = [];
-        console.log("HOLA")
     }
 
     
