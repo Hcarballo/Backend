@@ -2,28 +2,27 @@ class ProductManager {
     products;
     static lastId = 0;
 
-   
-
     constructor() {
         this.products = [];
     }
 
-    
+
     getProducts() {
         return this.products;
     }
 
-    addProduct(title, description, price, code, stock) {
+    addProduct(title, description, price, thumbnail, code, stock) {
         ProductManager.lastId++;
         const product = {
             id: ProductManager.lastId,
+            title,
             description,
-            price,            
-            thumbnail, 
-            code,           
+            price,
+            thumbnail,
+            code,
             stock
         };
-        
+
         if (!product.code || !product.description || !product.price || !product.thumbnail || product.stock) {
             console.log("Todos los campos son obligatorios");
             return;
@@ -35,7 +34,7 @@ class ProductManager {
                 return;
             }
         }
-                
+
         this.products.push(product);
     }
 
