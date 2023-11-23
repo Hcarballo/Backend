@@ -23,29 +23,29 @@ class ProductManager {
             stock
         };
 
-        if (!product.code || !product.description || !product.price || !product.thumbnail || product.stock) {
+        if (!product.code || !product.description || !product.price || !product.thumbnail || !product.stock) {
             console.log("Todos los campos son obligatorios");
+            ProductManager.lastId--;
             return;
         }
 
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].codigo === product.codigo) {
-                console.log("El código del producto ya existe");
-                return;
-            }
+        if (this.products.find(id)) {
+            console.log("El código del producto ya existe");
+            ProductManager.lastId--;
+            return;
         }
+
 
         this.products.push(product);
     }
 
     getProductById(id) {
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
-                return this.products[i];
-            }
+        if (this.products.length > 0) {
+            return this.products.find(id)
         }
 
         console.log("No se encontró el producto");
     }
+
 
 }
