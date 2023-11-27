@@ -29,12 +29,11 @@ class ProductManager {
             return;
         }
 
-        if (this.products.find(id)) {
+        if (this.products.some(p => p.code === product.code)) {
             console.log("El código del producto ya existe");
             ProductManager.lastId--;
             return;
         }
-
 
         this.products.push(product);
     }
@@ -45,7 +44,15 @@ class ProductManager {
         }
 
         console.log("No se encontró el producto");
-    }
+    }  
 
 
 }
+
+const productManager = new ProductManager();
+
+productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc127", 10); // Id = 1
+productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc127", 10); // Código repetido
+productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc128", 10); // Id = ?
+
+console.log(productManager.getProducts());
