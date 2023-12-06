@@ -1,115 +1,107 @@
-const fs = require('fs');
-const { get } = require('http');
+import utils from "./src/utils.js";
+import crypto from "crypto";
 
-class ProductManager {
-    products;
-    path;
-
-    constructor() {
-        this.products = [];
-        this.path = "./product.txt"
+export class ProductManager {
+    
+    constructor(path) {
+        this.path = path;
+        this.products = [];        
     }
+  
 
-    getProducts() {
-        if (fs.existsSync(this.path)) {
-            const productsData = fs.readFileSync(this.path, "utf-8");
-            this.products = productsData.split('\n').filter(line => line).map(line => JSON.parse(line));
-            return this.products;
+    async addProduct(title, description, price, thumbnail, code, stock) {
+
+        if (code == undefined || description == undefined || price == undefined || thumbnail == undefined || stock == undefined) {
+            throw new Error("Todos los campos son obligatorios");
+        }
+        try {
+            let data = await utils.readFile(this.path);
+            this.products = data?.length > 0 ? data : [];
+        } catch (error) {
+            console.log(error);
+        }
+
+        if (this.products.some((p) => p.code == code)) {
+            throw new Error("El código del producto ya existe");
+        } else {
+            const product = {
+                id: crypto.randomUUID(),
+                title,
+                description,
+                price,
+                thumbnail,
+                code,
+                stock
+            };
+            this.products.push(product);
+            try {
+                await utils.writeFile(this.path, this.products);
+            } catch {
+                console.log(error);
+            }
         }
     }
 
-    getLastIdProducts() {
-        const products = this.getProducts();
-        let id = 0;
-        if (products.length > 0) {
-            id = Math.max(...products.map(p => p.id));
-            id++;
-            console.log(id);
+    async getProducts() {
+        try {
+            let datos = await utils.readFile(this.path);
+            return datos?.length > 0 ? this.products : "No hay registros cargados";
+        } catch (error) {
+            console.log(error);
         }
-
-        return id;
     }
+   
+    async getProductById(id) {
+        try {
+            const products = this.getProducts();
+            const product = products.find(p => p.id === id);
 
-    addProduct(title, description, price, thumbnail, code, stock) {
-
-        const product = {
-            id: this.getLastIdProducts(),
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
-        };
-
-        if (!product.code || !product.description || !product.price || !product.thumbnail || !product.stock) {
-            console.log("Todos los campos son obligatorios");
-            return;
-        }
-
-        if (this.products.some(p => p.code === product.code)) {
-            console.log("El código del producto ya existe");
-            return;
-        }
-
-        this.products.push(product);
-        fs.appendFileSync(this.path, JSON.stringify(product) + '\n');
-    }
-
-    getProductById(id) {
-        const products = this.getProducts();
-        const product = products.find(p => p.id === id);
-
-        if (product != undefined) {
-            return product;
-        }
-
-        console.log("No se encontró el producto");
-    }
-
-    upDateProduct(id, updateAtrib) {
-        const products = this.getProducts();
-        const productIndex = products.findIndex(p => p.id === id);
-
-        if (productIndex === -1) {
+            if (product != undefined) {
+                return product;
+            }
             console.log("No se encontró el producto");
-            return;
+        } catch (error) {
+            console.log(error);
         }
-
-        products[productIndex] = { ...products[productIndex], ...updateAtrib };
-
-        const productsData = products.map(product => JSON.stringify(product)).join('\n');
-        fs.writeFileSync(this.path, productsData);
     }
 
-    deleteProduct(id) {
-        const products = this.getProducts();
-        const productIndex = products.findIndex(p => p.id === id);
+    async upDateProduct(id, updateAtrib) {
+        try {
+            const products = this.getProducts();
+            const productIndex = products.findIndex(p => p.id === id);
 
-        if (productIndex === -1) {
-            console.log("No se encontró el producto");
-            return;
+            if (productIndex === -1) {
+                console.log("No se encontró el producto");
+                return;
+            }
+
+            products[productIndex] = { ...products[productIndex], ...updateAtrib };
+            const productsData = products.map(product => JSON.stringify(product)).join('\n');
+            await utils.writeFile(this.path, productsData);
+        } catch (error) {
+            console.log(error);
         }
-
-        products.splice(productIndex, 1);
-
-        const productsData = products.map(product => JSON.stringify(product)).join('\n');
-        fs.writeFileSync(this.path, productsData);
     }
 
+    async deleteProduct(id) {
+        try {
+            const products = this.getProducts();
+            const productIndex = products.findIndex(p => p.id === id);
+
+            if (productIndex === -1) {
+                console.log("No se encontró el producto");
+                return;
+            }
+
+            products.splice(productIndex, 1);
+            const productsData = products.map(product => JSON.stringify(product)).join('\n');
+            await utils.writeFile(this.path, productsData);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 //------------Testing---------------
 
-const productManager = new ProductManager();
-
-productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc129", 10);
-productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc130", 10);
-productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc130", 10); // Código repetido
-productManager.addProduct("producto prueba", "es la descrip de prueba", 100, "sin imagen", "abc131", 10);
-
-console.log(productManager.getProducts());
-console.log(productManager.getProductById(2));
-
-productManager.upDateProduct(4, { title: "Cambio/Actualizacion", price: 200 })
-productManager.deleteProduct(3)
