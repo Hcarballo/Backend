@@ -7,7 +7,7 @@ const PORT = 8080;
 const productManager = new ProductManager("./product.json")
 
 app.get("/", (req, res) => {
-    res.send("Desafio #3 ");
+    res.send("Desafio #3 v1.1 ");
 });
 
 app.get("/products", async (req, res) => {
@@ -28,7 +28,25 @@ app.get("/products", async (req, res) => {
     }
 });
 
+app.get("/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
 
+
+        let product = await productManager.getProductById(id);
+
+
+        if (product) {
+            res.status(200).json({ message: "success", data: product });
+        } else {
+            res.status(404).json({
+                message: "el producto solicitado no existe",
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);

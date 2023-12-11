@@ -6,8 +6,7 @@ export class ProductManager {
     constructor(path) {
         this.path = path;
         this.products = [];        
-    }
-  
+    }  
 
     async addProduct(title, description, price, thumbnail, code, stock) {
 
@@ -45,7 +44,7 @@ export class ProductManager {
     async getProducts() {
         try {
             let datos = await utils.readFile(this.path);
-            return datos?.length > 0 ? this.products : "No hay registros cargados";
+            return datos?.length > 0 ? datos : "No hay registros cargados";
         } catch (error) {
             console.log(error);
         }
@@ -53,7 +52,7 @@ export class ProductManager {
    
     async getProductById(id) {
         try {
-            const products = this.getProducts();
+            const products = await this.getProducts();
             const product = products.find(p => p.id === id);
 
             if (product != undefined) {
@@ -67,8 +66,8 @@ export class ProductManager {
 
     async upDateProduct(id, updateAtrib) {
         try {
-            const products = this.getProducts();
-            const productIndex = products.findIndex(p => p.id === id);
+            const products =await  this.getProducts();
+            const productIndex = await products.findIndex(p => p.id === id);
 
             if (productIndex === -1) {
                 console.log("No se encontró el producto");
@@ -76,7 +75,7 @@ export class ProductManager {
             }
 
             products[productIndex] = { ...products[productIndex], ...updateAtrib };
-            const productsData = products.map(product => JSON.stringify(product)).join('\n');
+            const productsData = await products.map(product => JSON.stringify(product)).join('\n');
             await utils.writeFile(this.path, productsData);
         } catch (error) {
             console.log(error);
@@ -85,8 +84,8 @@ export class ProductManager {
 
     async deleteProduct(id) {
         try {
-            const products = this.getProducts();
-            const productIndex = products.findIndex(p => p.id === id);
+            const products = await this.getProducts();
+            const productIndex = await products.findIndex(p => p.id === id);
 
             if (productIndex === -1) {
                 console.log("No se encontró el producto");
@@ -102,6 +101,4 @@ export class ProductManager {
         }
     }
 }
-
-//------------Testing---------------
 
