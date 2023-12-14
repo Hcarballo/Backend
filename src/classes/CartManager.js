@@ -95,7 +95,7 @@ export class CartManager {
                 return;
             }
 
-            cartss.splice(cartIndex, 1);
+            carts.splice(cartIndex, 1);
             const cartsData = carts.map(cart => JSON.stringify(cart)).join('\n');
             await utils.writeFile(this.path, cartsDataData);
 
