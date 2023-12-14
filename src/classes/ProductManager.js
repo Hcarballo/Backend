@@ -1,16 +1,16 @@
-import utils from "./src/utils.js";
+import utils from "../utils.js";
 import crypto from "crypto";
 
 export class ProductManager {
-    
+
     constructor(path) {
         this.path = path;
-        this.products = [];        
-    }  
+        this.products = [];
+    }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
+    async addProduct(title, description, price, thumbnail, code, stock, category) {
 
-        if (code == undefined || description == undefined || price == undefined || thumbnail == undefined || stock == undefined) {
+        if (code == undefined || description == undefined || price == undefined || thumbnail == undefined || stock == undefined || category == undefined) {
             throw new Error("Todos los campos son obligatorios");
         }
         try {
@@ -28,9 +28,11 @@ export class ProductManager {
                 title,
                 description,
                 price,
+                status: true,
                 thumbnail,
                 code,
-                stock
+                stock,
+                category
             };
             this.products.push(product);
             try {
@@ -48,8 +50,8 @@ export class ProductManager {
         } catch (error) {
             console.log(error);
         }
-    }
-   
+    };
+
     async getProductById(id) {
         try {
             const products = await this.getProducts();
@@ -66,7 +68,7 @@ export class ProductManager {
 
     async upDateProduct(id, updateAtrib) {
         try {
-            const products =await  this.getProducts();
+            const products = await this.getProducts();
             const productIndex = await products.findIndex(p => p.id === id);
 
             if (productIndex === -1) {
@@ -101,4 +103,9 @@ export class ProductManager {
         }
     }
 }
+
+export default{
+    ProductManager,
+}
+
 
