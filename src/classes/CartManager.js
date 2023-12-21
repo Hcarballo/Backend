@@ -97,7 +97,7 @@ export class CartManager {
 
             carts.splice(cartIndex, 1);
             const cartsData = carts.map(cart => JSON.stringify(cart)).join('\n');
-            await utils.writeFile(this.path, cartsDataData);
+            await utils.writeFile(this.path, cartsData);
 
         } catch (error) {
             console.log(error);
@@ -105,8 +105,6 @@ export class CartManager {
     }
 
 }
-
-
 
 export default {
     CartManager

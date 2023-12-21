@@ -1,12 +1,6 @@
-import { ProductManager } from "../ProductManager.js"
-
-let products = new ProductManager("./product.json");
-
-products.addProduct("producto A","Este es el producto A",100,"sin imagen","abc123",10);
-products.addProduct("producto B","Este es el producto B",100,"sin imagen","abc124",10);
-products.addProduct("producto C","Este es el producto C",100,"sin imagen","abc125",10);
-products.addProduct("producto D","Este es el producto D",100,"sin imagen","abc126",10);
-products.addProduct("producto E","Este es el producto E",100,"sin imagen","abc127",10);
-products.addProduct("producto F","Este es el producto F",100,"sin imagen","abc128",10);
-products.addProduct("producto G","Este es el producto G",100,"sin imagen","abc129",10);
-
+// [{"id":"c676487f-b203-4c6b-b378-9e6c9ea55b1d","title":"producto A","description":"Este es el producto A","price":100,"thumbnail":"https://tse2.mm.bing.net/th?id=OIP.1UyKchbEDly2I45uYPwI4wHaQy&pid=Api&P=0&h=180","code":"abc123","stock":10},
+// {"id":"f3758d3b-271b-4445-9e22-92a2ea9286d8","title":"producto B","description":"Este es el producto B","price":100,"thumbnail":"https://th.bing.com/th/id/OIP.auNytAZEjwTEE5sbLI5b_AHaHa?w=183&h=185&c=7&r=0&o=5&dpr=1.3&pid=1.7","code":"abc124","stock":10},
+// {"id":"21388106-3448-40e3-ae69-4650444e34bd","title":"producto D","description":"Este es el producto D","price":100,"thumbnail":"https://tse2.mm.bing.net/th?id=OIP.1UyKchbEDly2I45uYPwI4wHaQy&pid=Api&P=0&h=180","code":"abc126","stock":10},
+// {"id":"33bc083c-9d1f-4ff6-9b2b-ab7fb439eb48","title":"producto E","description":"Este es el producto E","price":100,"thumbnail":"https://tse2.mm.bing.net/th?id=OIP.1UyKchbEDly2I45uYPwI4wHaQy&pid=Api&P=0&h=180","code":"abc127","stock":10},
+// {"id":"315539d9-dc46-46b0-b3f7-6fc5fd130a3e","title":"producto F","description":"Este es el producto F","price":100,"thumbnail":"https://tse2.mm.bing.net/th?id=OIP.1UyKchbEDly2I45uYPwI4wHaQy&pid=Api&P=0&h=180","code":"abc128","stock":10},
+// {"id":"5ae40469-e85e-4dd4-9e0a-17f210b7e74d","title":"producto G","description":"Este es el producto G","price":100,"thumbnail":"https://tse2.mm.bing.net/th?id=OIP.1UyKchbEDly2I45uYPwI4wHaQy&pid=Api&P=0&h=180","code":"abc129","stock":10}]

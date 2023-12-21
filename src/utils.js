@@ -7,7 +7,7 @@ export const __dirname = dirname(__filename);
 
 async function writeFile(file, data) {
     try {
-        await fs.promises.appendFile(__dirname + "/" + file, JSON.stringify(data) + '\n');
+        await fs.promises.writeFile(__dirname + "/" + file, JSON.stringify(data) + '\n');
         return true;
     } catch (error) {
         console.log(error);

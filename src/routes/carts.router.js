@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.post("/:carroId/products/:productoID", async (res, req) => {
+router.post("/:carroId/products/:productoId", async (req, res) => {
     const { carroId, productoId } = req.params;
     try {
         const response = await cartManager.addProductToCart(carroId, productoId);

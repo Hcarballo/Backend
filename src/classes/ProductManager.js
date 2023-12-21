@@ -8,9 +8,17 @@ export class ProductManager {
         this.products = [];
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock, category) {
+    async addProduct(title, description, price, status, thumbnail, code, stock, category) {
 
-        if (code == undefined || description == undefined || price == undefined || thumbnail == undefined || stock == undefined || category == undefined) {
+        if (title == undefined ||
+            description == undefined ||
+            price == undefined ||
+            status == undefined ||
+            thumbnail == undefined ||
+            code == undefined ||
+            stock == undefined ||
+            category == undefined) {
+
             throw new Error("Todos los campos son obligatorios");
         }
         try {
@@ -28,7 +36,7 @@ export class ProductManager {
                 title,
                 description,
                 price,
-                status: true,
+                status,
                 thumbnail,
                 code,
                 stock,
@@ -104,7 +112,7 @@ export class ProductManager {
     }
 }
 
-export default{
+export default {
     ProductManager,
 }
 
