@@ -6,8 +6,11 @@
 
 .grillaproducts{
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+}
+
+.grilla{
+    margin-top: 20px;
 }
 
 .cardProduct {
